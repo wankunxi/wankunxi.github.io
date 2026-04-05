@@ -4,10 +4,15 @@ var SQRT_3 = Math.pow(3, 0.5);
 var triangle, D, mousePos, position;
 var count = 50;
 
-window.onload = function () {
+window.addEventListener('load', function () {
+  // 确保 canvas 元素存在
+  var canvasElement = document.getElementById('triangle-lost-in-space');
+  if (!canvasElement) {
+    console.error('找不到 canvas 元素');
+    return;
+  }
+  
   paper.setup('triangle-lost-in-space');
-  // D = Math.max(paper.view.getSize().width, paper.view.getSize().height);
-  // D = Math.max(paper.view.getSize().width, paper.view.getSize().height);
 
   mousePos = paper.view.center.add([view.bounds.width / 3, 100]);
   position = paper.view.center;
@@ -25,19 +30,19 @@ window.onload = function () {
     moveStars(vector.multiply(3));
     triangle.update();
   };
-};
+});
 // ---------------------------------------------------
 //  Helpers
 // ---------------------------------------------------
-window.onresize = function () {
+window.addEventListener('resize', function () {
+  if (!project) return;
   project.clear();
-  // D = Math.max(paper.view.getSize().width, paper.view.getSize().height);
   // Draw the BG
   var background = new Path.Rectangle(view.bounds);
   // background.fillColor = '#3B3251';
   buildStars();
-  triangle.build(50);
-};
+  if (triangle) triangle.build(50);
+});
 
 var random = function (minimum, maximum) {
   return Math.round(Math.random() * (maximum - minimum) + minimum);
