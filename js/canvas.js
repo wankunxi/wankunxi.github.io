@@ -106,9 +106,12 @@ Triangle.prototype.rotate = function () {
 // ---------------------------------------------------
 window.onmousemove = function (event) {
   if (!event) return;
+  if (!mousePos) return;  // 防止 mousePos 未定义
   mousePos.x = event.x;
   mousePos.y = event.y;
-  triangle.rotate();
+  if (triangle && typeof triangle.rotate === 'function') {  // 防止 triangle 未定义
+    triangle.rotate();
+  }
 };
 
 var buildStars = function () {
