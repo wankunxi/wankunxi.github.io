@@ -34,14 +34,36 @@ window.addEventListener('load', function () {
 // ---------------------------------------------------
 //  Helpers
 // ---------------------------------------------------
-window.addEventListener('resize', function () {
-  if (!project) return;
-  project.clear();
-  // Draw the BG
-  var background = new Path.Rectangle(view.bounds);
-  // background.fillColor = '#3B3251';
-  buildStars();
-  if (triangle) triangle.build(50);
+window.addEventListener('load', function () {
+  setTimeout(function() {
+    var canvasElement = document.getElementById('triangle-lost-in-space');
+    if (!canvasElement) {
+      console.error('找不到 canvas 元素');
+      return;
+    }
+    
+    // 确保 paper 已经加载
+    if (typeof paper === 'undefined') {
+      console.error('paper.js 未加载');
+      return;
+    }
+    
+    paper.setup('triangle-lost-in-space');
+
+    mousePos = paper.view.center.add([view.bounds.width / 3, 100]);
+    position = paper.view.center;
+
+    buildStars();
+    triangle = new Triangle(50);
+    paper.view.draw();
+
+    paper.view.onFrame = function (event) {
+      position = position.add((mousePos.subtract(position).divide(10)));
+      var vector = (view.center.subtract(position)).divide(10);
+      moveStars(vector.multiply(3));
+      triangle.update();
+    };
+  }, 100); // 延迟 100 毫秒
 });
 
 var random = function (minimum, maximum) {
