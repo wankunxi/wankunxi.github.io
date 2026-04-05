@@ -5,7 +5,7 @@ var triangle, D, mousePos, position;
 var count = 50;
 
 window.onload = function () {
-  paper.setup('triangle-lost-in-space');
+  paper.setup('canvas');
   // D = Math.max(paper.view.getSize().width, paper.view.getSize().height);
   // D = Math.max(paper.view.getSize().width, paper.view.getSize().height);
 
